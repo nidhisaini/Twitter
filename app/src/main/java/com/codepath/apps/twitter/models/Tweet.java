@@ -1,10 +1,22 @@
 package com.codepath.apps.twitter.models;
 
+import android.text.format.DateUtils;
+import android.util.Log;
+
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * [
@@ -79,14 +91,25 @@ import java.util.ArrayList;
  * "in_reply_to_status_id": null
  * }
  */
-public class Tweet {
+@Table(name = "tweet")
+public class Tweet extends Model {
     //list out attributes
+    @Column(name = "tweet_body")
     private String body;
-    private long uid;
+    @Column(name = "tweet_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    private long tid;
+    @Column(name = "tweet_User", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     private User user;//store embedded user object
+    @Column(name = "tweet_created_at")
     private String createdAt;
 
+   /* @Column(name = "remote_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    private long remoteId;
+*/
     //getters
+   /* public long getRemoteId() {
+        return remoteId;
+    }*/
     public User getUser() {
         return user;
     }
@@ -95,8 +118,8 @@ public class Tweet {
         return body;
     }
 
-    public long getUid() {
-        return uid;
+    public long getTid() {
+        return tid;
     }
 
     public String getCreatedAt() {
@@ -108,8 +131,8 @@ public class Tweet {
         this.body = body;
     }
 
-    public void setUid(long uid) {
-        this.uid = uid;
+    public void setTid(long tid) {
+        this.tid = tid;
     }
 
     public void setUser(User user) {
@@ -121,6 +144,18 @@ public class Tweet {
     }
 
 
+   //Empty constructor for ActiveAndroid
+    public Tweet() {
+        super();
+    }
+
+    /*public Tweet(String body, long tid, User user, String createdAt, long remoteId) {
+        this.body = body;
+        this.tid = tid;
+        this.user = user;
+        this.createdAt = createdAt;
+       *//* this.remoteId = remoteId;*//*
+    }*/
 
     //deserialize json and turn it into java obj(tweet obj)
     public static Tweet fromJSON(JSONObject jsonObject) {
@@ -129,8 +164,9 @@ public class Tweet {
         try {
             //extract the value from json, store them
             tweet.body = jsonObject.getString("text");
-            tweet.uid = jsonObject.getLong("id");
+            tweet.tid = jsonObject.getLong("id");
             tweet.createdAt = jsonObject.getString("created_at");
+
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -142,22 +178,73 @@ public class Tweet {
     //pass in Tweet.fromJSONArray[{ }, { }, { }]  ==> List<Tweet>
     public static ArrayList<Tweet> fromJSONArray(JSONArray jsonArray){
         ArrayList<Tweet> tweets = new  ArrayList<>();
+        JSONObject tweetJson;
 
         for(int i = 0; i< jsonArray.length(); i++ ){
             try {
-                 JSONObject tweetJson = jsonArray.getJSONObject(i);
-                 Tweet tweet = Tweet.fromJSON(tweetJson);
-                 if(tweet != null){
-                     tweets.add(tweet);
-                 }
+                tweetJson = jsonArray.getJSONObject(i);
             } catch (JSONException e) {
                 e.printStackTrace();
                 continue;
             }
+                Tweet tweet = Tweet.fromJSON(tweetJson);
+            if (tweet != null) {
+                tweet.getUser().save();
+                tweet.save();
+                tweets.add(tweet);
+            }
+
         }
 
 
         return tweets;
+    }
+
+
+    // Optional helper method for ActiveAndroid to establish a direct relationship with the Users table
+    public List<User> getUsers() {
+        return getMany(User.class, "Tweets");
+    }
+
+
+
+    // Used to return items from another table based on the foreign key
+    public static List<Tweet> getAll() {
+        return new Select().from(Tweet.class).execute();
+    }
+
+    public String setCreatedAtNow() {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        return simpleDateFormat.format(System.currentTimeMillis());
+    }
+
+
+    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    //  "created_at": "Wed Mar 07 22:23:19 +0000 2007"
+    public static String getRelativeTimeAgo(String rawJsonDate) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String relativeTime = "";
+        try {
+            long dateMillis = sf.parse(rawJsonDate).getTime();
+            relativeTime = DateUtils.getRelativeTimeSpanString(dateMillis,
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+            String[] pieces = relativeTime.split(" ");
+            if (pieces.length < 2) {
+                Log.d("DEBUG", "No relative time to return.");
+            } else {
+                String number = pieces[0];
+                char letter = pieces[1].charAt(0);
+                relativeTime = number + Character.toString(letter);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeTime;
     }
 
 

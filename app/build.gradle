@@ -42,4 +42,11 @@ dependencies {
     //recyclerview support library
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
+
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    //SwipeRefreshLayout
+    compile 'com.android.support:support-v4:24.1.1'
+    //PagerSlidingTabStrip
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+
 }

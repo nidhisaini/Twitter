@@ -2,11 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item
+        android:id="@+id/action_profile"
+        android:title="@string/action_profile"
+        android:icon="@mipmap/ic_newprofile"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_compose"
         android:title="@string/action_refresh"
-        android:icon="@mipmap/twitter_compose_icon"
-        app:showAsAction="ifRoom"
-    />
+        android:icon="@mipmap/ic_compose"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_mentions"
+        android:title="@string/action_mentions"
+        android:icon="@mipmap/ic_mentions"
+        app:showAsAction="ifRoom"/>
 
 </menu>
