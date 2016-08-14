@@ -40,23 +40,28 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="CPTwitterProject"
+                    android:host="Twitter_Client123"
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.TimelineActivity"
-            android:label="@string/timeline">
-        </activity>
         <activity
             android:name=".activities.ComposeActivity"
+            android:label="@string/compose"
             android:windowSoftInputMode="adjustResize"
-            android:label="@string/compose">
+            android:parentActivityName=".activities.TimelineActivity">
         </activity>
-        <activity android:name=".activities.ProfileActivity"
-            android:label="@string/profile">
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:label="@string/profile"
+            android:parentActivityName=".activities.TimelineActivity">
         </activity>
-        <activity android:name=".activities.MentionsTimelineActivity"
-            android:label="@string/mention">
+        <activity
+            android:name=".activities.MentionsTimelineActivity"
+            android:label="@string/mention" >
+        </activity>
+        <activity android:name=".activities.TimelineActivity" >
+        </activity>
+        <activity android:name=".activities.DetailActivity" >
         </activity>
     </application>
 

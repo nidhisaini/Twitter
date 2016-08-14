@@ -1,6 +1,7 @@
 package com.codepath.apps.twitter.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -16,15 +17,13 @@ import android.widget.Toast;
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.TwitterApplication;
 import com.codepath.apps.twitter.TwitterClient;
+import com.codepath.apps.twitter.models.CurrentUser;
 import com.codepath.apps.twitter.models.Tweet;
-import com.codepath.apps.twitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 /*http://stackoverflow.com/questions/3013791/live-character-count-for-edittext
 * https://developer.android.com/training/keyboard-input/visibility.html*/
@@ -45,25 +44,33 @@ public class ComposeActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
 
-        User user = new User();
-        String username = user.getName();
-        String profileUrl = user.getProfileImageUrl();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.abc_ic_ab_back_material, null));
+        else
+            getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.abc_ic_ab_back_material));
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        CurrentUser cuser = new CurrentUser();
+        String username = cuser.getCname();
+        //String profileUrl = user.getProfileImageUrl();
+        //getArgument
 
 
 
         if(username != null){
-            tvUserName = (TextView) findViewById(R.id.tvUserName);
+            tvUserName = (TextView) findViewById(R.id.tvretweetUserName);
             tvUserName.setText(username);
         }
 
-        if(profileUrl != null){
-            ivUserImage = (ImageView) findViewById(R.id.ivProfileImage);
+      /*  if(profileUrl != null){
+            ivUserImage = (ImageView) findViewById(R.id.ivRetweetProfileImage);
             Picasso.with(this)
                     .load(profileUrl)
                     .fit()
                     .transform(new RoundedCornersTransformation(1, 1))
                     .into(ivUserImage);
-        }
+        }*/
 
 
         etCompose = (EditText) findViewById(R.id.etCompose);

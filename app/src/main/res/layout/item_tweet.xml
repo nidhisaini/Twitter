@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/rlretweet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/ivProfileImage"
+        android:id="@+id/ivRetweetProfileImage"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -17,10 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bob"
-        android:id="@+id/tvUserName"
+        android:id="@+id/tvretweetUserName"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage" />
+        android:layout_toRightOf="@+id/ivRetweetProfileImage"
+        android:layout_toEndOf="@+id/ivRetweetProfileImage" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,9 +34,9 @@
         android:id="@+id/tvBody"
         android:text="text"
         android:autoLink="all"
-        android:layout_below="@+id/tvUserName"
-        android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage" />
+        android:layout_below="@+id/tvretweetUserName"
+        android:layout_toRightOf="@+id/ivRetweetProfileImage"
+        android:layout_toEndOf="@+id/ivRetweetProfileImage" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,4 +45,52 @@
         android:id="@+id/tvCreatedAt"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/rlretweet">
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibReply"
+            android:src="@drawable/ic_reply"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="40dp"
+            android:background="#FFFFFF"/>
+
+        <ImageButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibRetweet"
+            android:src="@drawable/ic_retweet"
+            android:layout_marginRight="40dp"
+            android:background="#FFFFFF"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibHeart"
+            android:src="@drawable/ic_heart"
+            android:layout_marginRight="40dp"
+            android:background="#FFFFFF"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibMail"
+            android:src="@drawable/ic_email"
+            android:layout_marginRight="40dp"
+            android:background="#FFFFFF"/>
+
+
+    </LinearLayout>
+
+
 </RelativeLayout>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codepath.apps.twitter.activities.DetailActivity">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:id="@+id/rlretweet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/ivRetweetProfileImage"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bob"
+                android:id="@+id/tvretweetUserName"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/ivRetweetProfileImage"
+                android:layout_toEndOf="@+id/ivRetweetProfileImage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvRetweetBody"
+                android:text="text"
+                android:autoLink="all"
+                android:textSize="17dp"
+                android:textColor="#000000"
+                android:layout_below="@+id/tvretweetUserName"
+                android:layout_toRightOf="@+id/ivRetweetProfileImage"
+                android:layout_toEndOf="@+id/ivRetweetProfileImage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:text="25 Jul"
+                android:id="@+id/tvRetweetCreatedAt"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ivRetweetProfileImage"
+                android:layout_alignBottom="@+id/ivRetweetProfileImage" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/rlretweet">
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ibRetweetReply"
+                android:src="@drawable/ic_reply"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="40dp"
+                android:background="#FFFFFF"/>
+
+            <ImageButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ibRetweetRetweet"
+                android:src="@drawable/ic_retweet"
+                android:layout_marginRight="40dp"
+                android:background="#FFFFFF"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ibRetweetHeart"
+                android:src="@drawable/ic_heart"
+                android:layout_marginRight="40dp"
+                android:background="#FFFFFF"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ibRetweetMail"
+                android:src="@drawable/ic_email"
+                android:layout_marginRight="40dp"
+                android:background="#FFFFFF"/>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

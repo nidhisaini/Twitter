@@ -14,10 +14,5 @@
         android:icon="@mipmap/ic_compose"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_mentions"
-        android:title="@string/action_mentions"
-        android:icon="@mipmap/ic_mentions"
-        app:showAsAction="ifRoom"/>
 
 </menu>

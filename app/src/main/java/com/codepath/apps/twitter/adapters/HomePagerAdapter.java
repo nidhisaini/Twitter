@@ -3,8 +3,8 @@ package com.codepath.apps.twitter.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.codepath.apps.twitter.fragment.MentionsFragment;
-import com.codepath.apps.twitter.fragment.TimelineFragment;
+import com.codepath.apps.twitter.fragment.MentionsTimelineFragment;
+import com.codepath.apps.twitter.fragment.HomeTimelineFragment;
 
 
 public class HomePagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
@@ -21,12 +21,12 @@ public class HomePagerAdapter extends android.support.v4.app.FragmentPagerAdapte
 
         if(position == 0) // if the position is 0 we are returning the First tab
         {
-            TimelineFragment Timeline = new TimelineFragment();
+            HomeTimelineFragment Timeline = new HomeTimelineFragment();
             return Timeline;
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            MentionsFragment Mentions = new MentionsFragment();
+            MentionsTimelineFragment Mentions = new MentionsTimelineFragment();
             return Mentions;
         }
     }

@@ -3,7 +3,6 @@ package com.codepath.apps.twitter.activities;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -13,13 +12,8 @@ import com.codepath.apps.twitter.TwitterClient;
 import com.codepath.apps.twitter.adapters.TweetArrayAdapter;
 import com.codepath.apps.twitter.models.Tweet;
 import com.codepath.apps.twitter.utils.NetworkUtil;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
-
-import cz.msebera.android.httpclient.Header;
 
 public class MentionsTimelineActivity extends AppCompatActivity {
     ListView lvMentionsTimeline;
@@ -80,7 +74,7 @@ public class MentionsTimelineActivity extends AppCompatActivity {
 
     private void populateList(){
 
-        client.getMentionsTimeline(new JsonHttpResponseHandler(){
+       /* client.getMentionsTimeline(int page,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
                 Toast.makeText(MentionsTimelineActivity.this, "Success", Toast.LENGTH_SHORT).show();
@@ -96,7 +90,7 @@ public class MentionsTimelineActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Toast.makeText(MentionsTimelineActivity.this, "Failure", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
     }
 
 

@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,13 +93,13 @@ import java.util.Locale;
  * }
  */
 @Table(name = "tweet")
-public class Tweet extends Model {
+public class Tweet extends Model implements Serializable{
     //list out attributes
     @Column(name = "tweet_body")
     private String body;
-    @Column(name = "tweet_id", index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    @Column(name = "tweet_id")//, index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE
     private long tid;
-    @Column(name = "tweet_User", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
+    @Column(name = "tweet_User")//,, onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)//
     private User user;//store embedded user object
     @Column(name = "tweet_created_at")
     private String createdAt;
@@ -166,7 +167,6 @@ public class Tweet extends Model {
             tweet.body = jsonObject.getString("text");
             tweet.tid = jsonObject.getLong("id");
             tweet.createdAt = jsonObject.getString("created_at");
-
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -210,7 +210,8 @@ public class Tweet extends Model {
 
     // Used to return items from another table based on the foreign key
     public static List<Tweet> getAll() {
-        return new Select().from(Tweet.class).execute();
+
+        return new Select().from(Tweet.class).orderBy("tweet_created_at DESC").execute();
     }
 
     public String setCreatedAtNow() {
