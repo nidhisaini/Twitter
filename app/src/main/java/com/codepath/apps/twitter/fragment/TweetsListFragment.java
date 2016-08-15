@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.TwitterApplication;
@@ -16,6 +17,7 @@ import com.codepath.apps.twitter.activities.DetailActivity;
 import com.codepath.apps.twitter.adapters.TweetArrayAdapter;
 import com.codepath.apps.twitter.models.Tweet;
 import com.codepath.apps.twitter.utils.EndlessScrollListener;
+import com.codepath.apps.twitter.utils.NetworkUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,16 @@ public class TweetsListFragment extends Fragment {
 
        // aTweets.notifyDataSetChanged();
         client = TwitterApplication.getRestClient();
+
+       //check network connection
+    if (NetworkUtil.getInstance(getActivity()).isNetworkAvailable()) {
+        Toast.makeText(getContext(), "Connected to Internet", Toast.LENGTH_SHORT).show();
         populateTimeline(0);
+
+    }
+    else {
+        Toast.makeText(getActivity(), "Not connected to Internet", Toast.LENGTH_LONG).show();
+    }
     }
 
     //inflation logic
@@ -53,7 +64,13 @@ public class TweetsListFragment extends Fragment {
         //connect adadpter to the listview
         lvTweets.setAdapter(aTweets);
 
-        setup();
+        if (NetworkUtil.getInstance(getActivity()).isNetworkAvailable()) {
+            Toast.makeText(getContext(), "Connected to Internet", Toast.LENGTH_SHORT).show();
+            setup();
+        }
+        else {
+            Toast.makeText(getActivity(), "Not connected to Internet", Toast.LENGTH_LONG).show();
+        }
 
         lvTweets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

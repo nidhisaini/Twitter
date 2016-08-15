@@ -13,6 +13,7 @@ import com.codepath.apps.twitter.TwitterApplication;
 import com.codepath.apps.twitter.TwitterClient;
 import com.codepath.apps.twitter.fragment.UserTimelinefragment;
 import com.codepath.apps.twitter.models.User;
+import com.codepath.apps.twitter.utils.NetworkUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
@@ -56,32 +57,41 @@ public class ProfileActivity extends AppCompatActivity {
         user = (User) this.getIntent().getSerializableExtra("user");
         screenName = (String) this.getIntent().getSerializableExtra("screen_name");
 
-        if(user != null) {
-            getSupportActionBar().setTitle("@" + user.getScreenName());
-            populateUserprofile(user);
+        //check network connection
+        if (NetworkUtil.getInstance(this).isNetworkAvailable()) {
+            Toast.makeText(ProfileActivity.this, "Connected to Internet", Toast.LENGTH_SHORT).show();
+
+            if (user != null) {
+                getSupportActionBar().setTitle("@" + user.getScreenName());
+                populateUserprofile(user);
+            } else {
+
+                //get client
+                client = TwitterApplication.getRestClient();
+                client.getUserProfile(new JsonHttpResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        //my current user account info
+                        user = User.fromJSON(response);
+                        getSupportActionBar().setTitle("@" + user.getScreenName());
+                        populateUserprofile(user);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(ProfileActivity.this, "Network request failure", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+
         }
-       else {
-            //get client
-            client = TwitterApplication.getRestClient();
-            client.getUserProfile(new JsonHttpResponseHandler() {
-
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    //my current user account info
-                    user = User.fromJSON(response);
-                    getSupportActionBar().setTitle("@" + user.getScreenName());
-                    populateUserprofile(user);
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Toast.makeText(ProfileActivity.this, "Network request failure", Toast.LENGTH_SHORT).show();
-
-                }
-            });
+        else {
+            Toast.makeText(ProfileActivity.this, "Not connected to Internet", Toast.LENGTH_LONG).show();
         }
 
-        //get screen name
+            //get screen name
         //String screenName = getIntent().getStringExtra("screen_name");
         //Create the user timeline
         UserTimelinefragment userTimelinefragment = UserTimelinefragment.newInstance(screenName);

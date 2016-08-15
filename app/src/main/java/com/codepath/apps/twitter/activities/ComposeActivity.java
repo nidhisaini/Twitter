@@ -19,6 +19,7 @@ import com.codepath.apps.twitter.TwitterApplication;
 import com.codepath.apps.twitter.TwitterClient;
 import com.codepath.apps.twitter.models.CurrentUser;
 import com.codepath.apps.twitter.models.Tweet;
+import com.codepath.apps.twitter.utils.NetworkUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
@@ -132,37 +133,42 @@ public class ComposeActivity extends AppCompatActivity {
 
 
     private void populateTweet(String status){
-        if(status != ""){
-            tweet = new Tweet();
-            tweet.setBody(status);
-            tweet.setCreatedAt(tweet.setCreatedAtNow());
-            tweet.save();
-           // tweet.getUser(tweet.getUser().)
-            tweet.save();
-            client.postTweet(status, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
-                    Log.d("DEBUG", "Success");
-                    Toast.makeText(ComposeActivity.this, "Success", Toast.LENGTH_LONG).show();
-                    tweet = Tweet.fromJSON(response);
-                }
+        if (NetworkUtil.getInstance(this).isNetworkAvailable()) {
+            Toast.makeText(ComposeActivity.this, "Connected to Internet", Toast.LENGTH_SHORT).show();
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    Log.d("DEBUG", "Failure");
-                    Toast.makeText(ComposeActivity.this, "Failure", Toast.LENGTH_LONG).show();
+            if (status != "") {
+                tweet = new Tweet();
+                tweet.setBody(status);
+                tweet.setCreatedAt(tweet.setCreatedAtNow());
+                tweet.save();
+                // tweet.getUser(tweet.getUser().)
+                tweet.save();
+                client.postTweet(status, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                        Log.d("DEBUG", "Success");
+                        Toast.makeText(ComposeActivity.this, "Success", Toast.LENGTH_LONG).show();
+                        tweet = Tweet.fromJSON(response);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        Log.d("DEBUG", "Failure");
+                        Toast.makeText(ComposeActivity.this, "Failure", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                Intent i = new Intent();
+                i.putExtra("status", status);
+                setResult(RESULT_OK, i);
+                finish();
+
+            } else {
+                Toast.makeText(ComposeActivity.this, "Enter a tweet", Toast.LENGTH_LONG).show();
+                //btnTweet.
             }
-        });
-
-            Intent i = new Intent();
-            i.putExtra("status", status);
-            setResult(RESULT_OK, i);
-            finish();
-
-        }else{
-            Toast.makeText(ComposeActivity.this, "Enter a tweet", Toast.LENGTH_LONG).show();
-            //btnTweet.
         }
 
     }

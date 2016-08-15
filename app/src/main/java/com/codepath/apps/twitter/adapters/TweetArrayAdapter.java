@@ -34,6 +34,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         ImageView ivProfileImage;
         TextView tvCreatedAt;
         ImageButton ibRetweet;
+        ImageButton ibHeart;
 
     }
 
@@ -58,6 +59,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvCreatedAt = (TextView) convertView.findViewById(R.id.tvCreatedAt);
             viewHolder.ivProfileImage = (ImageView) convertView.findViewById(R.id.ivRetweetProfileImage);
             viewHolder.ibRetweet =(ImageButton) convertView.findViewById(R.id.ibRetweet);
+            viewHolder.ibHeart = (ImageButton) convertView.findViewById(R.id.ibHeart);
             // Cache the viewHolder object inside the fresh view
             convertView.setTag(viewHolder);
         }else{
@@ -89,7 +91,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             @Override
             public void onClick(View view) {
                 client = TwitterApplication.getRestClient();
-                client.getRetweet(tweet.getTid(),new JsonHttpResponseHandler(){
+                client.getRetweet(tweet.getTid(), new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
@@ -103,6 +105,29 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 
             }
         });
+
+        viewHolder.ibHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client = TwitterApplication.getRestClient();
+                client.favorite(tweet.getTid(), tweet.getFavorited() , new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                      // tweet.copyFrom(response);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        super.onFailure(statusCode, headers, responseString, throwable);
+                    }
+
+                });
+
+            }
+        });
+
+
+
 
         //5 return to the view to be inserted into the list
         return convertView;

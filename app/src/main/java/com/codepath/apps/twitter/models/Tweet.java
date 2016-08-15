@@ -103,6 +103,15 @@ public class Tweet extends Model implements Serializable{
     private User user;//store embedded user object
     @Column(name = "tweet_created_at")
     private String createdAt;
+    @Column(name = "tweet_created_at")
+    private Boolean favorited;
+
+
+
+    @Column(name = "tweet_created_at")
+    private Integer favorite_count;
+
+
 
    /* @Column(name = "remote_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long remoteId;
@@ -144,6 +153,18 @@ public class Tweet extends Model implements Serializable{
         this.createdAt = createdAt;
     }
 
+    public Integer getFavorite_count() {
+        return favorite_count;
+    }
+
+    public Boolean getFavorited() {
+        return favorited;
+    }
+
+
+
+
+
 
    //Empty constructor for ActiveAndroid
     public Tweet() {
@@ -168,6 +189,8 @@ public class Tweet extends Model implements Serializable{
             tweet.tid = jsonObject.getLong("id");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.favorite_count =jsonObject.getInt("favourites_count");
+            tweet.favorited =jsonObject.getBoolean("favorited");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -246,6 +269,13 @@ public class Tweet extends Model implements Serializable{
         }
 
         return relativeTime;
+    }
+
+    public void copyFrom(Tweet tweet) {
+        this.favorite_count = tweet.getFavorite_count();
+        this.favorited = tweet.getFavorited();
+        /*this.retweet_count = tweet.getRetweet_count();
+        this.retweeted = tweet.getRetweeted();*/
     }
 
 
