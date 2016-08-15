@@ -5,10 +5,12 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import org.parceler.Parcel;
+
 /**
  * Created by NidhiSaini on 8/7/16.
  */
-@Table(name = "CurrentUser")
+@Table(name = "CurrentUser")@Parcel
 public class CurrentUser extends Model {
     @Column(name = "cuser_name")
     private String cname;

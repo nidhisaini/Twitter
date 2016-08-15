@@ -11,8 +11,8 @@ import com.activeandroid.query.Select;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,8 +92,8 @@ import java.util.Locale;
  * "in_reply_to_status_id": null
  * }
  */
-@Table(name = "tweet")
-public class Tweet extends Model implements Serializable{
+@Table(name = "tweet")@Parcel
+public class Tweet extends Model {
     //list out attributes
     @Column(name = "tweet_body")
     private String body;

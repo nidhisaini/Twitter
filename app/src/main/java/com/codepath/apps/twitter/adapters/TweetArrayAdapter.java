@@ -19,6 +19,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -79,8 +80,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), ProfileActivity.class);
-                i.putExtra("user", tweet.getUser());
-                i.putExtra("screen_name", tweet.getUser().getScreenName());
+                i.putExtra("user", Parcels.wrap(tweet.getUser()));
+                i.putExtra("screen_name", Parcels.wrap(tweet.getUser().getScreenName()));
                 view.getContext().startActivity(i);
 
 

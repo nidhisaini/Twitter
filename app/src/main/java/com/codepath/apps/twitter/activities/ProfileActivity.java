@@ -18,6 +18,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
@@ -54,8 +55,8 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         setupViews();
-        user = (User) this.getIntent().getSerializableExtra("user");
-        screenName = (String) this.getIntent().getSerializableExtra("screen_name");
+        user = (User) Parcels.unwrap(this.getIntent().getParcelableExtra("user"));
+        screenName = (String) Parcels.unwrap(this.getIntent().getParcelableExtra("screen_name"));
 
         //check network connection
         if (NetworkUtil.getInstance(this).isNetworkAvailable()) {

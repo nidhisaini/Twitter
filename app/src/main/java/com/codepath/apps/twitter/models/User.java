@@ -6,12 +6,11 @@ import com.activeandroid.annotation.Table;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
-import java.io.Serializable;
 
-
-@Table(name = "user")
-public class User extends Model implements Serializable {
+@Table(name = "user") @Parcel
+public class User extends Model {
 
     //list the attributes
     @Column(name = "user_id")//,, index = true, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE

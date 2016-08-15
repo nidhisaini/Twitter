@@ -21,6 +21,9 @@ android {
 repositories {
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+
+    apply plugin: 'android-apt'
+    apply plugin: 'com.neenbedankt.android-apt'
 }
 
 dependencies {
@@ -48,6 +51,12 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     //PagerSlidingTabStrip
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+
+    compile 'org.parceler:parceler-api:1.1.1'
+    apt 'org.parceler:parceler:1.1.1'
 
 
 
